@@ -13,4 +13,4 @@ COPY mongodb-to-s3.sh /usr/bin/mongodb-to-s3
 
 ENTRYPOINT ["/usr/bin/mongodb-to-s3"]
 
-CMD ["cron", "* * * * *"]
+CMD ["cron", "0 1 * * *"]

@@ -26,10 +26,10 @@ cron() {
   echo "Starting backup cron job with frequency '$1'"
   # echo "$1 $0 backup" > /var/spool/cron/crontabs/root
   # crond -f
-  echo -e "$1 $0 backup > /var/log/cron.fifo 2>&1" | crontab -
-  crontab -l
-  cron
-  tail -f /var/log/cron.fifo
+  echo "$1 AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION S3_BUCKET=$S3_BUCKET S3_KEY_PREFIX=$S3_KEY_PREFIX S3_KEY_PREFIX=$S3_KEY_PREFIX BACKUP_PATH=$BACKUP_PATH DATABASE=$DATABASE BACKUP_PATH=$BACKUP_PATH BACKUP_ARCHIVE_PATH=$BACKUP_ARCHIVE_PATH DATABASE_HOST=$DATABASE_HOST DATABASE_PORT=$DATABASE_PORT DATABASE_META_DIR=$DATABASE_META_DIR DATABASE_DATA_DIR=$DATABASE_DATA_DIR DATETIME=$DATETIME PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin $0 backup >> /mongo_backup.log 2>&1" > /crontab.conf
+  crontab  /crontab.conf
+  exec cron -f
+  echo "Started backup cron job with frequency '$1'"
 }
 
 # Dump the database to a file and push it to S3
